@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto;
+    color: #F6EFA6;
+}
+
+:root {
+    --background-color: #66B3BA;
+    --button-color: #4e42fd;
+}
+
+main {
+    /*centralize our login form*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%
+}
+
+.container {
+    /*the login background*/
+    background-color: var(--background-color);
+    border-radius: 10px;
+    padding: 5em;
+    position: relative;
+
+}
+
+h1 {
+    position: absolute;
+    top: 1.2em;
+    left: 1.5em;
+    font-size: 1.5rem;
+}
+
+form {
+    position: relative;
+    /*for the login button's absolute positioning*/
+}
+
+.inputs {
+    /* translate: 0em -1em; */
+    height: 8em;
+    width: 20em;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    margin: 0em 0em 0.8em;
+}
+
+#username,
+#password,
+#email {
+    /*inputs*/
+    width: 100%;
+    padding: 0.5em;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 0.2em;
+    color: black;
+}
+
+a {
+    font-size: 0.8rem;
+}
+
+a:hover {
+    color: blue;
+}
+
+#login_btn,
+#register_btn {
+    position: absolute;
+    right: 0;
+    padding: 0.7em;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--button-color);
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 1em 0em;
+}

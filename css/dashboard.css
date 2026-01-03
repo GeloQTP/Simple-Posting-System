@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto;
+}
+
+
+main {
+    margin: 0.5em 2em;
+}
+
+.post_container {
+    display: flex;
+    justify-content: center;
+    margin: 1em auto;
+    /* border: 2px dashed red; */
+    width: 100%;
+}
+
+.post_card {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    padding: 1em 1em 1.5em;
+    border-radius: 10px;
+    background-color: rgba(209, 209, 209, 0.356);
+
+}
+
+.post-date {
+    margin: 0em 0em 0em auto;
+}
+
+#post_images {
+    /*size of the images displayed on the user's page*/
+    width: 100%;
+    border-radius: 10px;
+}
