@@ -4,5 +4,3 @@ rows.forEach((row) => {
     console.log("click");
   });
 });
-
-//test change 
