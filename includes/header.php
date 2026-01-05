@@ -19,6 +19,12 @@ if (!isset($_SESSION["username"])) {
 </head>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     header {
         margin: 0rem 0rem;
     }
@@ -26,6 +32,27 @@ if (!isset($_SESSION["username"])) {
     nav {
         padding: 1.5rem;
         background-color: #66B3BA;
+    }
+
+    .notification {
+        position: relative;
+        cursor: pointer;
+    }
+
+    #notificationList {
+        display: none;
+        position: absolute;
+        top: 35px;
+        right: 0px;
+        background-color: white;
+        list-style: none;
+        /*remove the bullet point per list*/
+        padding: 1em 1em;
+        margin: 0;
+        width: 14em;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 100;
     }
 
     #greeting_text {
@@ -51,9 +78,26 @@ if (!isset($_SESSION["username"])) {
             <div id="greeting_text">Welcome, <?= $_SESSION["username"] ?>!</div>
 
             <ul style="display: flex; list-style-type: none; gap: 20px; align-items: center;">
-                <li class="notification"><i class="fa fa-bell" style="font-size:25px"></i></li>
+
+                <li class="notification">
+
+                    <i class="fa fa-bell" style="font-size:25px" onclick="toggleNotifications()"></i>
+
+                    <ul id="notificationList">
+                        <li>No new notifications</li>
+                        <li>New user registered</li>
+                        <li>System update completed</li>
+                    </ul>
+
+                </li>
+
                 <li class="messages"><i class="fa fa-envelope" style="font-size:25px"></i></li>
-                <li class="settings"><i class="fa fa-gear" style="font-size:30px"></i></li>
+
+                <li class="settings">
+
+                    <i class="fa fa-gear" style="font-size:30px"></i>
+
+                </li>
                 <li style="font-size: 30px;"><i class="fa fa-circle"></i></li>
                 <form action="logout.php" method="post">
                     <input type="submit" value="Log out" id="logout_btn">
@@ -63,5 +107,20 @@ if (!isset($_SESSION["username"])) {
         </nav>
     </header>
 </body>
+
+<script>
+    function toggleNotifications() {
+        const list = document.getElementById("notificationList");
+        list.style.display = list.style.display === "block" ? "none" : "block";
+    }
+
+    // Optional: close when clicking outside
+    document.addEventListener("click", function(event) {
+        const notification = document.querySelector(".notification");
+        if (!notification.contains(event.target)) {
+            document.getElementById("notificationList").style.display = "none";
+        }
+    });
+</script>
 
 </html>
