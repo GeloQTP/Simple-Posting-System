@@ -1,11 +1,10 @@
 <?php
+session_start();
 require("../includes/db_connect.php");
 require("../classes/inputSanitizer.php");
 ?>
 
 <?php
-
-session_start();
 
 // if (isset($_COOKIE["username"])) { // checks if there are cookies available
 //     header("Location: dashboard.php"); // if true, login
@@ -24,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") { // most reliable way when checking 
         $statement = $conn->prepare("SELECT * FROM users WHERE username = ?"); // PREPARED SQL STATEMENT TO AVOID SQL INJECTION.
 
         if (!$statement) {
-            die("Database error: " . $conn->error);
+            die("Database error: " . $conn->error); // CHECK IF THE PREPARATION WAS SUCCESSFUL and if not, display the error.
         }
 
         $statement->bind_param("s", $username); // "s" = string, "$sername" = our input

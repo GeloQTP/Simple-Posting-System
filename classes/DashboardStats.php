@@ -4,12 +4,12 @@ class DashboardStats
 {
     private mysqli $conn; // private property (variable) only accesible to this class
 
-    public function __construct(mysqli $conn) // will be automatically called when we create an object
+    public function __construct(mysqli $conn) // will be automatically called when we create/call an object
     {
-        $this->conn = $conn;
+        $this->conn = $conn; // this->conn refers to the private property above
     }
 
-    public function totalUsers(): int // : int indicates 
+    public function totalUsers(): int // : int indicates that this function will return an integer value
     {
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM users");
         $stmt->execute();
