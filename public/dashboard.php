@@ -29,7 +29,7 @@ try {
 
     <dialog id="comment_dialog"> <!--comment dialog box-->
 
-        <img src="" alt="" id="image_display">
+        <img src="" alt="" id="image_preview">
 
         <form action="comment.php" method="post">
             <input type="hidden" name="post_id" id="post_id" value=""> <!--hidden input to store post ID, look up in the script below-->
@@ -89,7 +89,7 @@ try {
 
     function openCommentDialog(id, filePath) { // Function to open comment dialog with post ID nad file path.
         postID.value = id;
-        document.getElementById("image_display").src = filePath;
+        document.getElementById("image_preview").src = filePath;
         commentDialog.showModal();
     }
 
