@@ -26,14 +26,20 @@ try {
 </head>
 
 <body>
+
     <dialog id="comment_dialog"> <!--comment dialog box-->
+
+        <img src="" alt="" id="image_display">
+
         <form action="comment.php" method="post">
             <input type="hidden" name="post_id" id="post_id" value=""> <!--hidden input to store post ID, look up in the script below-->
             <label for="comment_input">Enter your comment:</label><br>
             <textarea id="comment_input" name="comment_input"></textarea>
             <button type="submit">Submit</button>
         </form>
-        <button onclick=" this.parentElement.close()">Close</button>
+
+        <button onclick=" this.parentElement.close()">Close</button> <!--close this element's parent element-->
+
     </dialog>
 
     <header>
@@ -41,7 +47,12 @@ try {
     </header>
 
     <main>
+
         <?php while ($row = $result->fetch_assoc()) {
+
+            $postID = (int) $row['post_ID'];
+            $filePath = (string) $row['filePath'];
+
         ?>
             <div class="post_container"><!--container that makes the post card be place on the center-->
                 <div class="post_card"><!--the post card-->
@@ -54,7 +65,7 @@ try {
 
                     <div class="like_and_comment_container"> <!--like and comment section-->
                         <button class="like_button">Like</button>
-                        <button class="comment_button" onclick="openCommentDialog(<?= $row['post_ID'] ?>)">Comment</button>
+                        <button class="comment_button" onclick="openCommentDialog(<?= (int)$postID ?>, '<?= htmlspecialchars($filePath, ENT_QUOTES, 'UTF-8') ?>')">Comment</button>
                     </div>
 
                 </div>
@@ -76,13 +87,11 @@ try {
 
     const postID = document.getElementById('post_id'); // Hidden input to store post ID
 
-
-    function openCommentDialog(id) { // Function to open comment dialog with post ID
+    function openCommentDialog(id, filePath) { // Function to open comment dialog with post ID nad file path.
         postID.value = id;
+        document.getElementById("image_display").src = filePath;
         commentDialog.showModal();
     }
-
-
 
     likeButtons.forEach(button => { // Add click event listener to each like button
         button.addEventListener('click', function() {

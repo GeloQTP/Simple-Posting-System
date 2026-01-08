@@ -77,4 +77,5 @@ main {
     margin: 0.5em 0em 1em 0em;
     border: 1px solid #ccc;
     border-radius: 5px;
+    resize: none;
 }
