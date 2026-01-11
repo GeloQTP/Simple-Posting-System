@@ -7,4 +7,5 @@ Project Features (Mostly backend)
 > applied security practices backend logic
 > input/variable sanitization
 > password hashing
-> file upload (mostly images) checking
+> file upload (images) + secured checking
+> commenting
