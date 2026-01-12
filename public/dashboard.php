@@ -35,11 +35,13 @@ try {
 
                 <img src="" alt="" id="image_preview"> <!--image preview-->
 
-                <form> <!--no action or method needed since it's handled by JavaScript -->
+                <form id="comment_form"> <!--no action or method needed since it's handled by JavaScript -->
                     <input type="hidden" name="post_id" id="post_id" value=""> <!--hidden input to store post ID, look up in the script below-->
-                    <label for="comment_input">Enter yourcomment:</label><br>
+                    <label for="comment_input">Enter your Comment:</label><br>
                     <textarea id="comment_input" name="comment_input"></textarea>
-                    <button type="submit">Submit</button>
+                    <div class="submit_btn_container">
+                        <input type="submit" id="submit_btn"></input>
+                    </div>
                 </form>
 
                 <script>
@@ -86,10 +88,9 @@ try {
                 </div>
             </div>
 
+            <button onclick="commentDialog.close()" id="close_comment_modal_btn">Close</button>
+
         </div>
-
-        <button onclick=" this.parentElement.close()">Close</button> <!--close this element's parent element-->
-
     </dialog>
 
     <header>
@@ -186,8 +187,9 @@ try {
                 const who = c.userID ? 'User ' + escapeHtml(String(c.userID)) : 'Anonymous';
                 const text = escapeHtml(c.comment);
                 return `<div class= "comment">
-                            <strong>${who}</strong>
-                            <small class = "comment_date">${when}</small>
+                            <div class="comment_meta">
+                                <strong id="comment_user">${who} </strong> <em id="comment_date">${when}</em>
+                            </div>
                             <div>${text}</div>
                         </div>`;
             }).join('');
