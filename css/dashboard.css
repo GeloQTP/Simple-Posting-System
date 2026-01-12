@@ -97,7 +97,7 @@ main {
     border: 1px solid red;
     width: 50%;
     overflow: auto;
-    max-height: 475px;
+    max-height: 100%;
 }
 
 #image_preview {
@@ -115,5 +115,6 @@ main {
 }
 
 .comment_date {
-    margin-left: 64%;
+    color: gray;
+    margin-left: 60%;
 }
