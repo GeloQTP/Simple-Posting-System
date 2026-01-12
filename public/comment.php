@@ -45,3 +45,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: dashboard.php');
     exit;
 }
+
+// Support fetching comments for a post via GET returning JSON
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['post_id'])) {
+    $post_id = (int) $_GET['post_id'];
+
+    try {
+        $stmt = $conn->prepare("SELECT commentID, postID, userID, comment, commentDate FROM comments WHERE postID = ? ORDER BY commentDate ASC");
+        $stmt->bind_param("i", $post_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $comments = []; // Initialize an array to hold comments
+
+        while ($row = $res->fetch_assoc()) { // Fetch each comment as an associative array
+            $comments[] = $row;
+        }
+
+        header('Content-Type: application/json'); // Set header for JSON response
+        echo json_encode($comments); // Encode the comments array as JSON and output it
+        exit;
+    } catch (Exception $e) {
+        header('Content-Type: application/json', true, 500);
+        echo json_encode(['error' => 'Could not fetch comments']);
+        exit;
+    }
+}

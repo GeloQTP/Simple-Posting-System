@@ -5,7 +5,7 @@ require("../includes/db_connect.php");
 <?php
 mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ERROR);
 try {
-    $stmt = $conn->prepare("SELECT * FROM file_uploads");
+    $stmt = $conn->prepare("SELECT * FROM file_uploads ORDER BY post_date DESC");
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -34,12 +34,49 @@ try {
             <div> <!--image preview and comment form container-->
                 <img src="" alt="" id="image_preview">
 
-                <form action="comment.php" method="post">
+                <form> <!--no action or method needed since it's handled by JavaScript -->
                     <input type="hidden" name="post_id" id="post_id" value=""> <!--hidden input to store post ID, look up in the script below-->
                     <label for="comment_input">Enter your comment:</label><br>
                     <textarea id="comment_input" name="comment_input"></textarea>
                     <button type="submit">Submit</button>
                 </form>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully loaded before attaching event listeners.
+
+                        const commentForm = document.querySelector('#comment_dialog form');
+
+                        commentForm.addEventListener('submit', async (e) => { // the 'e' is taken from the event listener which is the commentForm.
+                            e.preventDefault(); // Prevent default form submit to allow AJAX posting.
+
+                            const form = e.currentTarget;
+                            const formData = new FormData(form); // Create FormData object from the form, gets all input values inside the form.
+
+                            try {
+                                const res = await fetch('comment.php', { // this function posts the comment to comment.php and stores it in the database
+                                    method: 'POST',
+                                    body: formData,
+                                    credentials: 'same-origin'
+                                });
+
+                                console.log(res);
+
+                                if (!res.ok) throw new Error('Network response was not ok'); // Check for HTTP errors.
+
+                                // Clear textarea and reload comments after successful post
+                                document.getElementById('comment_input').value = '';
+                                const postId = document.getElementById('post_id').value; // Get the current post ID and send it to loadComments function
+                                if (postId) loadComments(postId); // Reload comments for the post.
+                            } catch (err) {
+                                console.error('Error posting comment', err);
+                                alert('Could not post comment');
+                            }
+
+                        });
+
+                    });
+                </script>
+
             </div>
 
             <div> <!--comments display container-->
@@ -99,19 +136,64 @@ try {
         postID.value = id;
         document.getElementById("image_preview").src = filePath;
         commentDialog.showModal();
+        loadComments(id); // Load comments for the post when dialog opens
     };
-
-    // function openCommentDialog(id, filePath) { // Function to open comment dialog with post ID nad file path.
-    //     postID.value = id;
-    //     document.getElementById("image_preview").src = filePath;
-    //     commentDialog.showModal();
-    // }
 
     likeButtons.forEach(button => { // Add click event listener to each like button
         button.addEventListener('click', () => {
             alert('You liked this post!!');
         });
     });
+
+    // Utility to escape HTML to avoid XSS when inserting comments
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>"']/g, (c) => {
+            return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": "&#39;"
+            } [c];
+        });
+    }
+
+    // Load comments for a post and render them in the dialog
+    async function loadComments(postId) {
+
+        const display = document.getElementById('comments_display'); // not really used but could be useful while waiting for comments to load
+        display.innerHTML = 'Loading comments...';
+
+        try {
+
+            const res = await fetch(`comment.php?post_id=${encodeURIComponent(postId)}`, { // Fetch comments via GET no method needed because GET is default
+                credentials: 'same-origin' // Include cookies and authentication headers so the server can identify the user
+            });
+
+            if (!res.ok) throw new Error('Network error'); // Check for HTTP errors.
+
+            const comments = await res.json(); // get the JSON response containing comments
+
+            if (!Array.isArray(comments) || comments.length === 0) { // check if comments is an array and has elements if not display no comments yet
+                display.innerHTML = '<p>No comments yet.</p>';
+                return;
+            }
+
+            const html = comments.map(c => {
+                const when = c.commentDate ? escapeHtml(c.commentDate) : '';
+                const who = c.userID ? 'User ' + escapeHtml(String(c.userID)) : 'Anonymous';
+                const text = escapeHtml(c.comment);
+                return `<div class="single-comment"><strong>${who}</strong> <small>${when}</small><div>${text}</div></div>`;
+            }).join('');
+
+            display.innerHTML = html;
+
+        } catch (err) {
+            console.error('Error loading comments', err);
+            display.innerHTML = '<p>Could not load comments.</p>';
+        }
+    }
 </script>
 
 </html>
