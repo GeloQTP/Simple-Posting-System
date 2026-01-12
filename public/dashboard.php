@@ -29,14 +29,15 @@ try {
 
     <dialog id="comment_dialog"> <!--comment dialog box-->
 
-        <div style="display: flex; gap:10px "> <!--flex container to hold image preview and comment form-->
+        <div class="comment_content_dialogue_container"> <!--flex container to hold image preview and comment form-->
 
-            <div> <!--image preview and comment form container-->
-                <img src="" alt="" id="image_preview">
+            <div class="image_preview_container"> <!--image preview and comment form container-->
+
+                <img src="" alt="" id="image_preview"> <!--image preview-->
 
                 <form> <!--no action or method needed since it's handled by JavaScript -->
                     <input type="hidden" name="post_id" id="post_id" value=""> <!--hidden input to store post ID, look up in the script below-->
-                    <label for="comment_input">Enter your comment:</label><br>
+                    <label for="comment_input">Enter yourcomment:</label><br>
                     <textarea id="comment_input" name="comment_input"></textarea>
                     <button type="submit">Submit</button>
                 </form>
@@ -79,7 +80,7 @@ try {
 
             </div>
 
-            <div> <!--comments display container-->
+            <div class="comments_container"> <!--comments display container-->
                 <div id="comments_display">
                     <!-- Comments will be loaded here -->
                 </div>
@@ -184,7 +185,11 @@ try {
                 const when = c.commentDate ? escapeHtml(c.commentDate) : '';
                 const who = c.userID ? 'User ' + escapeHtml(String(c.userID)) : 'Anonymous';
                 const text = escapeHtml(c.comment);
-                return `<div class="single-comment"><strong>${who}</strong> <small>${when}</small><div>${text}</div></div>`;
+                return `<div class= "comment">
+                            <strong>${who}</strong>
+                            <small class = "comment_date">${when}</small>
+                            <div>${text}</div>
+                        </div>`;
             }).join('');
 
             display.innerHTML = html;

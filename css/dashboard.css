@@ -64,7 +64,7 @@ main {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 70vw;
+    width: 50vw;
     transform: translate(-50%, -50%);
     border: none;
     border-radius: 10px;
@@ -82,9 +82,38 @@ main {
     resize: none;
 }
 
+.comment_content_dialogue_container {
+    display: flex;
+    gap: 10px;
+    border: 1px solid green;
+}
+
+.image_preview_container {
+    width: 70%;
+    border: 1px solid blue;
+}
+
+.comments_container {
+    border: 1px solid red;
+    width: 50%;
+    overflow: auto;
+    max-height: 475px;
+}
+
 #image_preview {
     width: 100%;
     height: auto;
     border-radius: 10px;
     margin-bottom: 1em;
+}
+
+.comment {
+    border-bottom: 1px solid grey;
+    margin-bottom: 0.5em;
+    background-color: #f9f9f9;
+    padding: 0.5em;
+}
+
+.comment_date {
+    margin-left: 64%;
 }
