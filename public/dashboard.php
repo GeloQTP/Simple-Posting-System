@@ -10,6 +10,12 @@ try {
     $stmt->execute();
 
     $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        $message = 'No Post Available';
+    } else {
+        $message = '';
+    }
 } catch (mysqli_sql_exception) {
     echo "sqli error again";
 }
@@ -104,6 +110,8 @@ try {
     </header>
 
     <main>
+
+        <p style="display: flex; align-items:center; justify-content:center;"><?= $message ?></p>
 
         <?php while ($row = $result->fetch_assoc()) {
             $postID = (int) $row['post_ID'];

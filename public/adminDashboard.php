@@ -90,7 +90,7 @@ $result = $statement->get_result();
                         <tr class="table-row">
                             <td><?= htmlspecialchars($row['username']) ?></td>
                             <td><?= htmlspecialchars($row['reg_date']) ?></td>
-                            <td><?= htmlspecialchars($row['userType']) ?></td>
+                            <td><?= htmlspecialchars($row['userType'] ?? 'user') ?></td>
                             <td><span>X</span></td>
                         </tr>
 

@@ -6,6 +6,8 @@ require("../classes/inputSanitizer.php");
 
 <?php
 
+mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ERROR);
+
 // if (isset($_COOKIE["username"])) { // checks if there are cookies available
 //     header("Location: dashboard.php"); // if true, login
 //     exit();
