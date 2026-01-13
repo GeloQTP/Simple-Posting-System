@@ -1,4 +1,5 @@
 <?php
+session_start(); // needed at the top everytime we are we are going to access session variables
 require("../includes/db_connect.php");
 ?>
 
@@ -48,6 +49,7 @@ try {
                     document.addEventListener('DOMContentLoaded', () => { // Ensure the DOM is fully loaded before attaching event listeners.
 
                         const commentForm = document.querySelector('#comment_dialog form');
+                        const submit_btn = document.getElementById('submit_btn');
 
                         commentForm.addEventListener('submit', async (e) => { // the 'e' is taken from the event listener which is the commentForm.
                             e.preventDefault(); // Prevent default form submit to allow AJAX posting.
@@ -55,16 +57,20 @@ try {
                             const form = e.currentTarget;
                             const formData = new FormData(form); // Create FormData object from the form, gets all input values inside the form.
 
+                            submit_btn.disabled = true; // Disable the submit button to prevent multiple submissions.
+                            submit_btn.textContent = 'Posting...';
+
                             try {
                                 const res = await fetch('comment.php', { // this function posts the comment to comment.php and stores it in the database
                                     method: 'POST',
                                     body: formData,
-                                    credentials: 'same-origin'
+                                    credentials: 'same-origin' // Include cookies and authentication headers so the server can identify the user
                                 });
 
-                                console.log(res);
-
                                 if (!res.ok) throw new Error('Network response was not ok'); // Check for HTTP errors.
+
+                                submit_btn.disabled = false; // Re-enable the submit button.
+                                submit_btn.textContent = 'Post Comment';
 
                                 // Clear textarea and reload comments after successful post
                                 document.getElementById('comment_input').value = '';

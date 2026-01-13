@@ -1,6 +1,4 @@
 <?php
-session_start(); // needed at the top everytime we are we are going to access session variables
-
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
