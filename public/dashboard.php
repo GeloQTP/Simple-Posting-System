@@ -11,8 +11,8 @@ try {
 
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 0) {
-        $message = 'No Post Available';
+    if ($result->num_rows === 0) { // check if there are no posts available
+        $message = 'No Post Available'; // message to display when there are no posts
     } else {
         $message = '';
     }
